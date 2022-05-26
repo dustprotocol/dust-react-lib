@@ -1,6 +1,6 @@
 import { BigNumber, ethers } from 'ethers';
 
-export const REEF_ADDRESS = '0x0000000000000000000000000000000001000000';
+export const DUST_ADDRESS = '0x0000000000000000000000000000000001000000';
 export const EMPTY_ADDRESS = '0x';
 
 export interface ButtonStatus {
@@ -24,13 +24,13 @@ export const ensure = (condition: boolean, message: string): void => {
   }
 };
 
-export const toReefBalanceDisplay = (value?: BigNumber): string => {
+export const toDustBalanceDisplay = (value?: BigNumber): string => {
   if (value && value.gt(0)) {
     const stringValue = ethers.utils.formatEther(value);
     const delimiterIndex = stringValue.indexOf('.');
-    return `${stringValue.substring(0, delimiterIndex)} REEF`;
+    return `${stringValue.substring(0, delimiterIndex)} DUST`;
   }
-  return '- REEF';
+  return '- DUST';
 };
 
 export const uniqueCombinations = <T>(array: T[]): [T, T][] => {

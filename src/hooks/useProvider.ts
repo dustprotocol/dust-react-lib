@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Provider } from '@reef-defi/evm-provider';
+import { Provider } from '@dust-defi/evm-provider';
 import { WsProvider } from '@polkadot/api';
 import { useAsyncEffect } from './useAsyncEffect';
 

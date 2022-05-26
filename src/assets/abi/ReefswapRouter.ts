@@ -1,6 +1,6 @@
 import { ContractInterface } from 'ethers';
 
-export const ReefswapRouter: ContractInterface = [
+export const DustswapRouter: ContractInterface = [
   {
     inputs: [
       {

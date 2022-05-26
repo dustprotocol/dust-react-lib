@@ -1,63 +1,63 @@
 import { BigNumber, utils } from 'ethers';
 import { DataProgress, DataWithProgress, isDataSet } from './dataWithProgress';
 import {
-  Pool, reefTokenWithAmount, Token, TokenWithAmount,
+  Pool, dustTokenWithAmount, Token, TokenWithAmount,
 } from '../state';
 import { toDecimalPlaces } from './math';
 
 const { parseUnits, formatEther } = utils;
 
-const getReefTokenPoolReserves = (
-  reefTokenPool: Pool,
-  reefAddress: string,
-): { reefReserve: number; tokenReserve: number } => {
-  let reefReserve: number;
+const getDustTokenPoolReserves = (
+  dustTokenPool: Pool,
+  dustAddress: string,
+): { dustReserve: number; tokenReserve: number } => {
+  let dustReserve: number;
   let tokenReserve: number;
   if (
-    reefTokenPool.token1.address.toLowerCase() === reefAddress.toLowerCase()
+    dustTokenPool.token1.address.toLowerCase() === dustAddress.toLowerCase()
   ) {
-    reefReserve = parseInt(reefTokenPool.reserve1, 10);
-    tokenReserve = parseInt(reefTokenPool.reserve2, 10);
+    dustReserve = parseInt(dustTokenPool.reserve1, 10);
+    tokenReserve = parseInt(dustTokenPool.reserve2, 10);
   } else {
-    reefReserve = parseInt(reefTokenPool.reserve2, 10);
-    tokenReserve = parseInt(reefTokenPool.reserve1, 10);
+    dustReserve = parseInt(dustTokenPool.reserve2, 10);
+    tokenReserve = parseInt(dustTokenPool.reserve1, 10);
   }
-  return { reefReserve, tokenReserve };
+  return { dustReserve, tokenReserve };
 };
-const findReefTokenPool = (
+const findDustTokenPool = (
   pools: Pool[],
-  reefAddress: string,
+  dustAddress: string,
   token: Token,
 ): Pool | undefined => pools.find(
-  (pool) => (pool.token1.address.toLowerCase() === reefAddress.toLowerCase()
+  (pool) => (pool.token1.address.toLowerCase() === dustAddress.toLowerCase()
         && pool.token2.address.toLowerCase() === token.address.toLowerCase())
-      || (pool.token2.address.toLowerCase() === reefAddress.toLowerCase()
+      || (pool.token2.address.toLowerCase() === dustAddress.toLowerCase()
         && pool.token1.address.toLowerCase() === token.address.toLowerCase()),
 );
 
 export const calculateTokenPrice = (
   token: Token,
   pools: Pool[],
-  reefPrice: DataWithProgress<number>,
+  dustPrice: DataWithProgress<number>,
 ): DataWithProgress<number> => {
-  if (!isDataSet(reefPrice)) {
-    return reefPrice;
+  if (!isDataSet(dustPrice)) {
+    return dustPrice;
   }
-  const { address: reefAddress } = reefTokenWithAmount();
+  const { address: dustAddress } = dustTokenWithAmount();
   let ratio: number;
-  if (token.address.toLowerCase() !== reefAddress.toLowerCase()) {
-    const reefTokenPool = findReefTokenPool(pools, reefAddress, token);
-    if (reefTokenPool) {
-      const { reefReserve, tokenReserve } = getReefTokenPoolReserves(
-        reefTokenPool,
-        reefAddress,
+  if (token.address.toLowerCase() !== dustAddress.toLowerCase()) {
+    const dustTokenPool = findDustTokenPool(pools, dustAddress, token);
+    if (dustTokenPool) {
+      const { dustReserve, tokenReserve } = getDustTokenPoolReserves(
+        dustTokenPool,
+        dustAddress,
       );
-      ratio = reefReserve / tokenReserve;
-      return ratio * (reefPrice as number);
+      ratio = dustReserve / tokenReserve;
+      return ratio * (dustPrice as number);
     }
     return DataProgress.NO_DATA;
   }
-  return reefPrice || DataProgress.NO_DATA;
+  return dustPrice || DataProgress.NO_DATA;
 };
 
 export const calculateBalanceValue = ({

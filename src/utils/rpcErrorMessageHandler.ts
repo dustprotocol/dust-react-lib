@@ -12,14 +12,14 @@ const chainErrors: { [key: string]: string } = {
     'Insufficient buying amount. Incresse Slipping tolerance or lower buying amount.',
   INSUFFICIENT_LIQUIDITY_MINTED: 'Insufficient liquidity minted.',
   INSUFFICIENT_LIQUIDITY_BURNED: 'Insufficient liquidity burned.',
-  InsufficientBalance: 'Account Reef token balance is too low.',
+  InsufficientBalance: 'Account Dust token balance is too low.',
   LiquidityRestrictions: 'Insufficient pool liquidity.',
 };
 
 export const errorHandler = (message: string): string => {
   const errorKey = Object.keys(chainErrors).find((key) => message.includes(key));
 
-  if (message.includes('execution revert: ReefswapV2: K: ')) {
+  if (message.includes('execution revert: DustswapV2: K: ')) {
     return 'Insufficient pool liquidity.';
   }
 

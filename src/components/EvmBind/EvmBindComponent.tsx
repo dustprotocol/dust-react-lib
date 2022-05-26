@@ -1,9 +1,9 @@
-import { Provider } from '@reef-defi/evm-provider';
+import { Provider } from '@dust-defi/evm-provider';
 import { BigNumber, ethers } from 'ethers';
 import React, { useEffect, useState } from 'react';
-import { ReefSigner } from '../../state';
+import { DustSigner } from '../../state';
 import {
-  bindEvmAddress, sendToNativeAddress, toAddressShortDisplay, toReefBalanceDisplay, TxStatusHandler, TxStatusUpdate,
+  bindEvmAddress, sendToNativeAddress, toAddressShortDisplay, toDustBalanceDisplay, TxStatusHandler, TxStatusUpdate,
 } from '../../utils';
 import { useObservableState } from '../../hooks';
 import { currentProvider$ } from '../../appState/providerState';
@@ -21,8 +21,8 @@ export enum EvmBindComponentTxType {
 }
 
 interface EvmBindComponent {
-  bindSigner: ReefSigner;
-  signers: ReefSigner[];
+  bindSigner: DustSigner;
+  signers: DustSigner[];
   onTxUpdate?: TxStatusHandler;
 }
 
@@ -33,15 +33,15 @@ const getUpdateTxCallback = (fns: TxStatusHandler[]): TxStatusHandler => (val) =
 
 const MIN_BALANCE = ethers.utils.parseEther('5');
 
-function getSignersWithEnoughBalance(signers: ReefSigner[], bindFor: ReefSigner): ReefSigner[] {
+function getSignersWithEnoughBalance(signers: DustSigner[], bindFor: DustSigner): DustSigner[] {
   return signers?.length ? signers.filter((sig) => sig.address !== bindFor.address && sig.balance.gt(MIN_BALANCE.mul(BigNumber.from('2')))) : [];
 }
 
 export const EvmBindComponent = ({ bindSigner, onTxUpdate, signers }: EvmBindComponent): JSX.Element => {
   const provider: Provider|undefined = useObservableState(currentProvider$);
   const [bindFor, setBindFor] = useState(bindSigner);
-  const [availableTxAccounts, setAvailableTxAccounts] = useState<ReefSigner[]>([]);
-  const [transferBalanceFrom, setTransferBalanceFrom] = useState<ReefSigner>();
+  const [availableTxAccounts, setAvailableTxAccounts] = useState<DustSigner[]>([]);
+  const [transferBalanceFrom, setTransferBalanceFrom] = useState<DustSigner>();
   const [txStatus, setTxStatus] = useState<TxStatusUpdate | undefined>();
 
   useEffect(() => {
@@ -72,7 +72,7 @@ export const EvmBindComponent = ({ bindSigner, onTxUpdate, signers }: EvmBindCom
     }
   };
 
-  const transfer = async (from: ReefSigner, to: ReefSigner, amount: BigNumber, onTxUpd: TxStatusHandler): Promise<void> => {
+  const transfer = async (from: DustSigner, to: DustSigner, amount: BigNumber, onTxUpd: TxStatusHandler): Promise<void> => {
     if (!provider) {
       return;
     }
@@ -90,7 +90,7 @@ export const EvmBindComponent = ({ bindSigner, onTxUpdate, signers }: EvmBindCom
     onTxUpd({ txIdent, componentTxType: EvmBindComponentTxType.TRANSFER, addresses: [from.address, to.address] });
   };
 
-  const onAccountSelect = (_: any, selected: ReefSigner): void => setTransferBalanceFrom(selected);
+  const onAccountSelect = (_: any, selected: DustSigner): void => setTransferBalanceFrom(selected);
 
   return (
     <div className="mx-auto bind-evm">
@@ -128,7 +128,7 @@ export const EvmBindComponent = ({ bindSigner, onTxUpdate, signers }: EvmBindCom
                 <br />
                 {bindFor.evmAddress}
                 <br />
-                Use this address ONLY on Reef chain.
+                Use this address ONLY on Dust chain.
               </p>
             </FlexRow>
             )}
@@ -170,12 +170,12 @@ export const EvmBindComponent = ({ bindSigner, onTxUpdate, signers }: EvmBindCom
               && (
               <div>
                 {!txStatus && !transferBalanceFrom
-                && <p>Please add some Reef to this address for Ethereum VM binding transaction fee.</p>}
+                && <p>Please add some Dust to this address for Ethereum VM binding transaction fee.</p>}
                 {!txStatus && !!transferBalanceFrom && (
                 <div>
                   <p>
                     First send
-                    {toReefBalanceDisplay(MIN_BALANCE)}
+                    {toDustBalanceDisplay(MIN_BALANCE)}
                     {' '}
                     for
                     transaction
@@ -202,7 +202,7 @@ export const EvmBindComponent = ({ bindSigner, onTxUpdate, signers }: EvmBindCom
                   </p>
                   <button
                     type="button"
-                    className="btn btn-reef btn-lg border-rad"
+                    className="btn btn-dust btn-lg border-rad"
                     onClick={() => transfer(transferBalanceFrom, bindSigner, MIN_BALANCE, getUpdateTxCallback([onTxUpdate as TxStatusHandler, setTxStatus]))}
                   >
                     Continue
@@ -217,7 +217,7 @@ export const EvmBindComponent = ({ bindSigner, onTxUpdate, signers }: EvmBindCom
               <div>
                 <button
                   type="button"
-                  className="btn btn-reef btn-lg border-rad"
+                  className="btn btn-dust btn-lg border-rad"
                   onClick={() => bindAccount(getUpdateTxCallback([onTxUpdate as TxStatusHandler, setTxStatus]))}
                 >
                   Continue

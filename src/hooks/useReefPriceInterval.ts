@@ -1,20 +1,20 @@
 import { useEffect, useState } from 'react';
 import { DataProgress, DataWithProgress } from '../utils/dataWithProgress';
-import { retrieveReefCoingeckoPrice } from '../api/prices';
+import { retrieveDustCoingeckoPrice } from '../api/prices';
 
-export const useReefPriceInterval = (
+export const useDustPriceInterval = (
   intervalMs: number,
 ): DataWithProgress<number> => {
-  const [reefPrice, setReefPrice] = useState<DataWithProgress<number>>(
+  const [dustPrice, setDustPrice] = useState<DataWithProgress<number>>(
     DataProgress.LOADING,
   );
   useEffect(() => {
     const getPrice = async (): Promise<void> => {
       let price: number | DataProgress = DataProgress.NO_DATA;
       try {
-        price = await retrieveReefCoingeckoPrice();
+        price = await retrieveDustCoingeckoPrice();
       } catch (e) {}
-      setReefPrice(price);
+      setDustPrice(price);
     };
     const interval = setInterval(getPrice, intervalMs);
     getPrice();
@@ -22,5 +22,5 @@ export const useReefPriceInterval = (
       clearInterval(interval);
     };
   }, []);
-  return reefPrice;
+  return dustPrice;
 };

@@ -18,13 +18,13 @@ import { selectedSigner$ } from './accountState';
 import { currentProvider$, currentNetwork$ } from './providerState';
 import { apolloClientInstance$, zenToRx } from '../graphql/apollo';
 import { getExtrinsicUrl, getIconUrl } from '../utils';
-import { getReefCoinBalance, loadPools } from '../rpc';
-import { retrieveReefCoingeckoPrice } from '../api';
+import { getDustCoinBalance, loadPools } from '../rpc';
+import { retrieveDustCoingeckoPrice } from '../api';
 import {
   ContractType,
-  reefTokenWithAmount, Token, TokenNFT, TokenTransfer, TokenWithAmount,
+  dustTokenWithAmount, Token, TokenNFT, TokenTransfer, TokenWithAmount,
 } from '../state/token';
-import { Network, Pool, ReefSigner } from '../state';
+import { Network, Pool, DustSigner } from '../state';
 import { resolveNftImageLinks } from '../utils/nftUtil';
 
 // TODO replace with our own from lib and remove
@@ -39,8 +39,8 @@ const toPlainString = (num: number): string => `${+num}`.replace(
 
 const validatedTokens = { tokens: [] };
 
-export const reefPrice$: Observable<number> = timer(0, 60000).pipe(
-  switchMap(retrieveReefCoingeckoPrice),
+export const dustPrice$: Observable<number> = timer(0, 60000).pipe(
+  switchMap(retrieveDustCoingeckoPrice),
   shareReplay(1),
 );
 
@@ -155,11 +155,11 @@ const tokenBalancesWithContractDataCache = (apollo: any) => (
   });
 };
 
-const sortReefTokenFirst = (tokens): Token[] => {
-  const { address } = reefTokenWithAmount();
-  const reefTokenIndex = tokens.findIndex((t: Token) => t.address === address);
-  if (reefTokenIndex > 0) {
-    return [tokens[reefTokenIndex], ...tokens.slice(0, reefTokenIndex), ...tokens.slice(reefTokenIndex + 1, tokens.length)];
+const sortDustTokenFirst = (tokens): Token[] => {
+  const { address } = dustTokenWithAmount();
+  const dustTokenIndex = tokens.findIndex((t: Token) => t.address === address);
+  if (dustTokenIndex > 0) {
+    return [tokens[dustTokenIndex], ...tokens.slice(0, dustTokenIndex), ...tokens.slice(dustTokenIndex + 1, tokens.length)];
   }
   return tokens;
 };
@@ -187,37 +187,37 @@ export const selectedSignerTokenBalances$: Observable<Token[]> = combineLatest([
           // eslint-disable-next-line camelcase
           tokenBalances: { token_address: string; balance: number }[],
         ) => {
-          const reefTkn = reefTokenWithAmount();
-          const reefTokenResult = tokenBalances.find(
-            (tb) => tb.token_address === reefTkn.address,
+          const dustTkn = dustTokenWithAmount();
+          const dustTokenResult = tokenBalances.find(
+            (tb) => tb.token_address === dustTkn.address,
           );
 
-          const reefBalance = await getReefCoinBalance(
+          const dustBalance = await getDustCoinBalance(
             signer.address,
             provider,
           );
-          if (!reefTokenResult) {
+          if (!dustTokenResult) {
             tokenBalances.push({
-              token_address: reefTkn.address,
-              balance: parseInt(utils.formatUnits(reefBalance, 'wei'), 10),
+              token_address: dustTkn.address,
+              balance: parseInt(utils.formatUnits(dustBalance, 'wei'), 10),
             });
             return Promise.resolve(tokenBalances);
           }
 
-          reefTokenResult.balance = FixedNumber.fromValue(reefBalance).toUnsafeFloat();
+          dustTokenResult.balance = FixedNumber.fromValue(dustBalance).toUnsafeFloat();
           return Promise.resolve(tokenBalances);
         },
       ),
       // eslint-disable-next-line camelcase
       mergeScan(tokenBalancesWithContractDataCache(apollo), {
         tokens: [],
-        contractData: [reefTokenWithAmount()],
+        contractData: [dustTokenWithAmount()],
       }),
       map((val: { tokens: Token[] }) => val.tokens.map((t) => ({
         ...t,
         iconUrl: t.iconUrl || getIconUrl(t.address),
       }))),
-      map(sortReefTokenFirst),
+      map(sortDustTokenFirst),
     ))),
 );
 
@@ -280,7 +280,7 @@ export const pools$: Observable<Pool[]> = combineLatest([
 // TODO pools and tokens emit events at same time - check how to make 1 event from it
 export const tokenPrices$: Observable<TokenWithAmount[]> = combineLatest([
   allAvailableSignerTokens$,
-  reefPrice$,
+  dustPrice$,
   pools$,
 ]).pipe(map(toTokensWithPrice), shareReplay(1));
 
@@ -321,7 +321,7 @@ const TRANSFER_HISTORY_GQL = gql`
   }
 `;
 
-const resolveTransferHistoryNfts = (tokens: (Token | TokenNFT)[], signer: ReefSigner): Observable<(Token | TokenNFT)[]> => {
+const resolveTransferHistoryNfts = (tokens: (Token | TokenNFT)[], signer: DustSigner): Observable<(Token | TokenNFT)[]> => {
   const nftOrNull: (TokenNFT|null)[] = tokens.map((tr) => ('contractType' in tr && (tr.contractType === ContractType.ERC1155 || tr.contractType === ContractType.ERC721) ? tr : null));
   if (!nftOrNull.filter((v) => !!v).length) {
     return of(tokens);

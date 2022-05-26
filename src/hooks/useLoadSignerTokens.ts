@@ -7,14 +7,14 @@ import {
   isDataSet,
 } from '../utils/dataWithProgress';
 import {
-  Network, ReefSigner, reefTokenWithAmount, Token,
+  Network, DustSigner, dustTokenWithAmount, Token,
 } from '../state';
 import { loadSignerTokens } from '../api/tokens';
 
 export const useLoadSignerTokens = (
   refreshToggle: boolean,
   network: Network,
-  signer?: ReefSigner,
+  signer?: DustSigner,
 ): DataWithProgress<Token[]> => {
   const [tokens, setTokens] = useState<DataWithProgress<Token[]>>(
     DataProgress.LOADING,
@@ -44,10 +44,10 @@ export const useLoadSignerTokens = (
   useEffect(() => {
     if (isDataSet(tokens) && getData(tokens)?.length) {
       const tkns = tokens as Token[];
-      const { address: reefAddr } = reefTokenWithAmount();
-      const reefToken = tkns.find((t) => t.address === reefAddr);
-      if (reefToken) {
-        reefToken.balance = signer?.balance || BigNumber.from(0);
+      const { address: dustAddr } = dustTokenWithAmount();
+      const dustToken = tkns.find((t) => t.address === dustAddr);
+      if (dustToken) {
+        dustToken.balance = signer?.balance || BigNumber.from(0);
         setTokens([...tkns]);
       }
     }

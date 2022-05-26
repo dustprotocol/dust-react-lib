@@ -16,7 +16,7 @@ export interface TokenWithPrice extends Token {
 export const useSignerTokenBalances = (
   tokens: DataWithProgress<Token[]>,
   pools: Pool[],
-  reefPrice: DataWithProgress<number>,
+  dustPrice: DataWithProgress<number>,
 ): DataWithProgress<TokenWithPrice[]> => {
   const [balances, setBalances] = useState<DataWithProgress<TokenWithPrice[]>>(
     DataProgress.LOADING,
@@ -26,10 +26,10 @@ export const useSignerTokenBalances = (
       setBalances(tokens as DataWithProgress<TokenWithPrice[]>);
       return;
     }
-    if (!pools.length || !isDataSet(reefPrice)) {
+    if (!pools.length || !isDataSet(dustPrice)) {
       setBalances(
         (tokens as Token[]).map((tkn) => {
-          const stat = !isDataSet(reefPrice) ? reefPrice : DataProgress.LOADING;
+          const stat = !isDataSet(dustPrice) ? dustPrice : DataProgress.LOADING;
           return { ...tkn, balanceValue: stat, price: stat } as TokenWithPrice;
         }),
       );
@@ -37,7 +37,7 @@ export const useSignerTokenBalances = (
     }
 
     const bal = (tokens as Token[]).map((token: Token) => {
-      const price = calculateTokenPrice(token, pools, reefPrice);
+      const price = calculateTokenPrice(token, pools, dustPrice);
       const balanceValue = calculateBalanceValue({
         price,
         balance: token.balance,
@@ -45,6 +45,6 @@ export const useSignerTokenBalances = (
       return { ...token, price, balanceValue };
     });
     setBalances(bal);
-  }, [tokens, pools, reefPrice]);
+  }, [tokens, pools, dustPrice]);
   return balances;
 };

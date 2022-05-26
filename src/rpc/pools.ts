@@ -1,8 +1,8 @@
-import { Signer } from '@reef-defi/evm-provider';
+import { Signer } from '@dust-defi/evm-provider';
 import { Contract } from 'ethers';
 import { ensure, uniqueCombinations } from '../utils/utils';
-import { ReefswapPair } from '../assets/abi/ReefswapPair';
-import { getReefswapFactory } from './rpc';
+import { DustswapPair } from '../assets/abi/DustswapPair';
+import { getDustswapFactory } from './rpc';
 import { Token, Pool } from '..';
 
 const EMPTY_ADDRESS = '0x0000000000000000000000000000000000000000';
@@ -13,8 +13,8 @@ const findPoolTokenAddress = async (
   signer: Signer,
   factoryAddress: string,
 ): Promise<string> => {
-  const reefswapFactory = getReefswapFactory(factoryAddress, signer);
-  const address = await reefswapFactory.getPair(address1, address2);
+  const dustswapFactory = getDustswapFactory(factoryAddress, signer);
+  const address = await dustswapFactory.getPair(address1, address2);
   return address;
 };
 
@@ -31,7 +31,7 @@ export const loadPool = async (
     factoryAddress,
   );
   ensure(address !== EMPTY_ADDRESS, 'Pool does not exist!');
-  const contract = new Contract(address, ReefswapPair, signer);
+  const contract = new Contract(address, DustswapPair, signer);
 
   const decimals = await contract.decimals();
   const reserves = await contract.getReserves();

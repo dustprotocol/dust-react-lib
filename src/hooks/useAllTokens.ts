@@ -2,7 +2,7 @@ import { gql, ApolloClient, useSubscription } from '@apollo/client';
 import { useMemo } from 'react';
 import { BigNumber } from 'ethers';
 import { ERC20ContractData, Token } from '../state';
-import { REEF_ADDRESS } from '../utils';
+import { DUST_ADDRESS } from '../utils';
 
 const verifiedTokenQuery = gql`
 subscription tokens {
@@ -55,8 +55,8 @@ interface SignerVariable {
 }
 
 const sortTokens = (t1: Token, t2: Token): number => {
-  if (t1.address === REEF_ADDRESS) { return -1; }
-  if (t2.address === REEF_ADDRESS) { return 1; }
+  if (t1.address === DUST_ADDRESS) { return -1; }
+  if (t2.address === DUST_ADDRESS) { return 1; }
   return t1.balance.gte(t2.balance) ? -1 : 1;
 };
 
@@ -92,7 +92,7 @@ export const useAllTokens = (signer?: string, client?: ApolloClient<any>): Token
         decimals,
         name,
         symbol,
-        iconUrl: address === REEF_ADDRESS ? 'https://s2.coinmarketcap.com/static/img/coins/64x64/6951.png' : '',
+        iconUrl: address === DUST_ADDRESS ? 'https://s2.coinmarketcap.com/static/img/coins/64x64/6951.png' : '',
         balance: BigNumber.from(address in balances ? balances[address] : 0),
       }),
     )

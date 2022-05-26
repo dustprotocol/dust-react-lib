@@ -54,7 +54,7 @@ const SwapConfirmationModal = ({
     <SubCard>
       <ConfirmLabel
         title="Liquidity Provider Fee"
-        value="1.5 REEF"
+        value="1.5 DUST"
         titleSize="mini-text"
         valueSize="mini-text"
       />

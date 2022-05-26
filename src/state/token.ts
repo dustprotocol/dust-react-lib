@@ -100,14 +100,14 @@ export const ensureTokenAmount = (token: TokenWithAmount): void => ensure(
   `Insufficient ${token.name} balance`,
 );
 
-export const reefTokenWithAmount = (): TokenWithAmount => toTokenAmount(
+export const dustTokenWithAmount = (): TokenWithAmount => toTokenAmount(
   {
-    name: 'REEF',
+    name: 'DUST',
     address: '0x0000000000000000000000000000000001000000',
     iconUrl: 'https://s2.coinmarketcap.com/static/img/coins/64x64/6951.png',
     balance: BigNumber.from(0),
     decimals: 18,
-    symbol: 'REEF',
+    symbol: 'DUST',
   },
   {
     amount: '',

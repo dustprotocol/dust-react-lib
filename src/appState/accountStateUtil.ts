@@ -1,5 +1,5 @@
 import { UpdateAction, UpdateDataType } from './updateStateModel';
-import { ReefSigner } from '../state';
+import { DustSigner } from '../state';
 
 const getUpdAddresses = (
   updateType: UpdateDataType,
@@ -23,8 +23,8 @@ export const isUpdateAll = (addresses: string[] | null): boolean => addresses?.l
 export const getSignersToUpdate = (
   updateType: UpdateDataType,
   updateActions: UpdateAction[],
-  signers: ReefSigner[],
-): ReefSigner[] => {
+  signers: DustSigner[],
+): DustSigner[] => {
   const updAddresses = getUpdAddresses(updateType, updateActions);
   return isUpdateAll(updAddresses)
     ? signers
@@ -32,10 +32,10 @@ export const getSignersToUpdate = (
 };
 
 export const replaceUpdatedSigners = (
-  existingSigners: ReefSigner[] = [],
-  updatedSigners?: ReefSigner[],
+  existingSigners: DustSigner[] = [],
+  updatedSigners?: DustSigner[],
   appendNew?: boolean,
-): ReefSigner[] => {
+): DustSigner[] => {
   if (!appendNew && !existingSigners.length) {
     return existingSigners;
   }
@@ -59,8 +59,8 @@ export const replaceUpdatedSigners = (
 
 export const updateSignersEvmBindings = (
   updateActions: UpdateAction[],
-  signers?: ReefSigner[],
-): Promise<ReefSigner[]> => {
+  signers?: DustSigner[],
+): Promise<DustSigner[]> => {
   if (!signers || !signers.length) {
     return Promise.resolve([]);
   }
@@ -70,7 +70,7 @@ export const updateSignersEvmBindings = (
     signers,
   );
   return Promise.all(
-    updSigners.map((sig: ReefSigner) => sig.signer.isClaimed()),
+    updSigners.map((sig: DustSigner) => sig.signer.isClaimed()),
   ).then((claimed: boolean[]) => claimed.map((isEvmClaimed: boolean, i: number) => {
     const sig = updSigners[i];
     return { ...sig, isEvmClaimed };

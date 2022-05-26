@@ -1,20 +1,20 @@
-import { Provider, Signer } from '@reef-defi/evm-provider';
+import { Provider, Signer } from '@dust-defi/evm-provider';
 import type {
   InjectedExtension,
   InjectedAccountWithMeta,
 } from '@polkadot/extension-inject/types';
 import type {
   InjectedAccount,
-  InjectedAccountWithMeta as InjectedAccountWithMetaReef,
-  InjectedExtension as InjectedExtensionReef,
-} from "@reef-defi/extension-inject/types";
+  InjectedAccountWithMeta as InjectedAccountWithMetaDust,
+  InjectedExtension as InjectedExtensionDust,
+} from "@dust-defi/extension-inject/types";
 import type { Signer as InjectedSigner } from "@polkadot/api/types";
 import { DeriveBalancesAccountData } from "@polkadot/api-derive/balances/types";
 import { BigNumber } from "ethers";
 // import { firstValueFrom } from 'rxjs';
-import { web3FromSource } from '@reef-defi/extension-dapp';
+import { web3FromSource } from '@dust-defi/extension-dapp';
 import { ensure, removeUndefinedItem } from '../utils/utils';
-import { ReefSigner } from '../state/types';
+import { DustSigner } from '../state/types';
 // import { selectedSigner$ } from '../appState/accountState';
 
 const accountSourceSigners = new Map<string, InjectedSigner>();
@@ -42,7 +42,7 @@ export const getAccountSigner = async (
   return iSigner ? new Signer(provider, address, iSigner) : undefined;
 };
 
-export const getReefCoinBalance = async (
+export const getDustCoinBalance = async (
   address: string,
   provider: Provider
 ): Promise<BigNumber> => {
@@ -60,17 +60,17 @@ interface SignerInfo {
   address: string;
   genesisHash: string;
 }
-const signerToReefSigner = async (
+const signerToDustSigner = async (
   signer: Signer,
   provider: Provider,
   {
     address, name, source, genesisHash,
   }: SignerInfo,
-): Promise<ReefSigner> => {
+): Promise<DustSigner> => {
   const evmAddress = await signer.getAddress();
   const isEvmClaimed = await signer.isClaimed();
 
-  const balance = await getReefCoinBalance(address, provider);
+  const balance = await getDustCoinBalance(address, provider);
 
   return {
     signer,
@@ -85,10 +85,10 @@ const signerToReefSigner = async (
 };
 
 export const metaAccountToSigner = async (
-  account: InjectedAccountWithMeta | InjectedAccountWithMetaReef,
+  account: InjectedAccountWithMeta | InjectedAccountWithMetaDust,
   provider: Provider,
   injSigner: InjectedSigner,
-): Promise<ReefSigner | undefined> => {
+): Promise<DustSigner | undefined> => {
   const { source } = account.meta;
   const signer = await getAccountSigner(
     account.address,
@@ -99,7 +99,7 @@ export const metaAccountToSigner = async (
   if (!signer) {
     return undefined;
   }
-  return signerToReefSigner(
+  return signerToDustSigner(
     signer,
     provider,
     {
@@ -112,10 +112,10 @@ export const metaAccountToSigner = async (
 };
 
 export const metaAccountsToSigners = async (
-  accounts: (InjectedAccountWithMeta | InjectedAccountWithMetaReef)[],
+  accounts: (InjectedAccountWithMeta | InjectedAccountWithMetaDust)[],
   provider: Provider,
   sign: InjectedSigner,
-): Promise<ReefSigner[]> => {
+): Promise<DustSigner[]> => {
   const signers = await Promise.all(
     accounts
       .filter((account) => provider.api.genesisHash.toString() === account.meta.genesisHash)
@@ -130,9 +130,9 @@ export const accountToSigner = async (
   provider: Provider,
   sign: InjectedSigner,
   source: string,
-): Promise<ReefSigner> => {
+): Promise<DustSigner> => {
   const signer = new Signer(provider, account.address, sign);
-  return signerToReefSigner(
+  return signerToDustSigner(
     signer,
     provider,
     {
@@ -145,9 +145,9 @@ export const accountToSigner = async (
 };
 
 export const getExtensionSigners = async (
-  extensions: InjectedExtension[] | InjectedExtensionReef[],
+  extensions: InjectedExtension[] | InjectedExtensionDust[],
   provider: Provider
-): Promise<ReefSigner[]> => {
+): Promise<DustSigner[]> => {
   const extensionAccounts = await Promise.all(
     extensions.map(async (extension) => ({
       name: extension.name,
@@ -168,5 +168,5 @@ export const bindSigner = async (signer: Signer): Promise<void> => {
   await signer.claimDefaultAccount();
 };
 
-export const getSignerIdent = (signer: ReefSigner): string =>
+export const getSignerIdent = (signer: DustSigner): string =>
   `${signer.source}_${signer.address}`;

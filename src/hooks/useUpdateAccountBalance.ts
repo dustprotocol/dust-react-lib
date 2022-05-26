@@ -1,8 +1,8 @@
-import { Provider } from '@reef-defi/evm-provider';
+import { Provider } from '@dust-defi/evm-provider';
 import { useEffect, useState } from 'react';
 import { DeriveBalancesAccountData } from '@polkadot/api-derive/balances/types';
 
-// This hook is used to retrieve account reef balance even if the account address was not claimed
+// This hook is used to retrieve account dust balance even if the account address was not claimed
 export const useUpdateAccountBalance = (
   address?: string,
   provider?: Provider,
@@ -17,7 +17,7 @@ export const useUpdateAccountBalance = (
       Promise.resolve()
         .then(() => provider.api.derive.balances.all(address))
         .then((res: DeriveBalancesAccountData) => res.freeBalance.toHuman())
-        .then((balance) => (balance === '0' ? '0 REEF' : balance))
+        .then((balance) => (balance === '0' ? '0 DUST' : balance))
         .then(setBalance);
     };
 

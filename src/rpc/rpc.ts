@@ -1,9 +1,9 @@
-import { Signer } from '@reef-defi/evm-provider';
+import { Signer } from '@dust-defi/evm-provider';
 import { BigNumber, Contract } from 'ethers';
 import { ERC20 } from '../assets/abi/ERC20';
-import { ReefswapFactory } from '../assets/abi/ReefswapFactory';
-import { ReefswapRouter } from '../assets/abi/ReefswapRouter';
-import { createEmptyToken, ReefSigner, Token } from '../state';
+import { DustswapFactory } from '../assets/abi/DustswapFactory';
+import { DustswapRouter } from '../assets/abi/DustswapRouter';
+import { createEmptyToken, DustSigner, Token } from '../state';
 
 export const checkIfERC20ContractExist = async (
   address: string,
@@ -21,7 +21,7 @@ export const checkIfERC20ContractExist = async (
   }
 };
 
-export const getREEF20Contract = async (
+export const getDUST20Contract = async (
   address: string,
   signer: Signer,
 ): Promise<{
@@ -39,7 +39,7 @@ export const getREEF20Contract = async (
 
 export const contractToToken = async (
   tokenContract: Contract,
-  signer: ReefSigner,
+  signer: DustSigner,
 ): Promise<Token> => {
   const contractToken = createEmptyToken();
   contractToken.address = tokenContract.address;
@@ -55,9 +55,9 @@ export const balanceOf = async (
   balanceAddress: string,
   signer: Signer,
 ): Promise<BigNumber | null> => {
-  const contract = (await getREEF20Contract(address, signer))?.contract;
+  const contract = (await getDUST20Contract(address, signer))?.contract;
   return contract ? contract.balanceOf(balanceAddress) : null;
 };
 
-export const getReefswapRouter = (address: string, signer: Signer): Contract => new Contract(address, ReefswapRouter, signer);
-export const getReefswapFactory = (address: string, signer: Signer): Contract => new Contract(address, ReefswapFactory, signer);
+export const getDustswapRouter = (address: string, signer: Signer): Contract => new Contract(address, DustswapRouter, signer);
+export const getDustswapFactory = (address: string, signer: Signer): Contract => new Contract(address, DustswapFactory, signer);

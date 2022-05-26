@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from 'axios';
 import { BigNumber } from 'ethers';
 import {
-  Network, ReefSigner, reefTokenWithAmount, Token,
+  Network, DustSigner, dustTokenWithAmount, Token,
 } from '../state';
 
 interface AccountTokensRes {
@@ -19,22 +19,22 @@ interface AccountTokensResBalance {
     iconUrl: string;
   };
 }
-function getReefTokenBalance(reefSigner: ReefSigner): Promise<Token[]> {
-  const reefTkn = reefTokenWithAmount();
-  reefTkn.balance = reefSigner.balance;
-  return Promise.resolve([reefTkn as Token]);
+function getDustTokenBalance(dustSigner: DustSigner): Promise<Token[]> {
+  const dustTkn = dustTokenWithAmount();
+  dustTkn.balance = dustSigner.balance;
+  return Promise.resolve([dustTkn as Token]);
 }
 
 export const loadSignerTokens = async (
-  reefSigner: ReefSigner,
+  dustSigner: DustSigner,
   network: Network,
 ): Promise<Token[]> => {
-  const reefAddress = reefTokenWithAmount().address;
+  const dustAddress = dustTokenWithAmount().address;
   try {
     return axios
       .post<void, AxiosResponse<AccountTokensRes>>(
-        `${network.reefscanUrl}/api/account/tokens`,
-        { address: reefSigner.address },
+        `${network.dustscanUrl}/api/account/tokens`,
+        { address: dustSigner.address },
       )
       .then(
         (res) => {
@@ -45,7 +45,7 @@ export const loadSignerTokens = async (
             || !res.data.tokens
             || !res.data.tokens.length
           ) {
-            return getReefTokenBalance(reefSigner);
+            return getDustTokenBalance(dustSigner);
           }
           return Promise.resolve(
             res.data.tokens.map(
@@ -57,35 +57,35 @@ export const loadSignerTokens = async (
                 balance: BigNumber.from(resBal.balance),
                 iconUrl:
                     !resBal.contract_data.iconUrl
-                    && resBal.address === reefAddress
+                    && resBal.address === dustAddress
                       ? 'https://s2.coinmarketcap.com/static/img/coins/64x64/6951.png'
                       : resBal.contract_data.iconUrl,
                 isEmpty: false,
               } as Token),
             ),
           ).then((tokens: Token[]) => {
-            const reefIndex = tokens.findIndex(
-              (t) => t.address === reefAddress,
+            const dustIndex = tokens.findIndex(
+              (t) => t.address === dustAddress,
             );
-            let reefToken: Promise<Token>;
-            if (reefIndex > 0) {
-              reefToken = Promise.resolve(tokens[reefIndex]);
-              tokens.splice(reefIndex, 1);
+            let dustToken: Promise<Token>;
+            if (dustIndex > 0) {
+              dustToken = Promise.resolve(tokens[dustIndex]);
+              tokens.splice(dustIndex, 1);
             } else {
-              reefToken = getReefTokenBalance(reefSigner).then(
+              dustToken = getDustTokenBalance(dustSigner).then(
                 (tkns) => tkns[0],
               );
             }
-            return reefToken.then((rt) => [rt, ...tokens] as Token[]);
+            return dustToken.then((rt) => [rt, ...tokens] as Token[]);
           });
         },
         (err) => {
           console.log('Error loading account tokens =', err);
-          return getReefTokenBalance(reefSigner);
+          return getDustTokenBalance(dustSigner);
         },
       );
   } catch (err) {
     console.log('loadSignerTokens error = ', err);
-    return getReefTokenBalance(reefSigner);
+    return getDustTokenBalance(dustSigner);
   }
 };

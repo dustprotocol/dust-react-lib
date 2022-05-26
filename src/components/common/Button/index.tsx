@@ -13,7 +13,7 @@ export const Button: React.FC<ButtonProps> = ({
 }): JSX.Element => (
   <button
     type="button"
-    className="btn btn-reef border-rad"
+    className="btn btn-dust border-rad"
     disabled={disabled}
     onClick={onClick}
   >
@@ -96,7 +96,7 @@ export const PercentageButton: React.FC<PercentageButton> = ({
   <button
     type="button"
     className={`btn ${
-      Number.isNaN(percentage) ? 'btn-reef' : 'btn-secondary'
+      Number.isNaN(percentage) ? 'btn-dust' : 'btn-secondary'
     } border-rad me-1`}
     onClick={onClick}
   >

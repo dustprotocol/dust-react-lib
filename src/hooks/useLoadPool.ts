@@ -1,4 +1,4 @@
-import { Signer } from '@reef-defi/evm-provider';
+import { Signer } from '@dust-defi/evm-provider';
 import { useState, useEffect } from 'react';
 import { Pool, Token } from '..';
 import { loadPool } from '../rpc/pools';

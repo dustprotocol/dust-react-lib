@@ -22,8 +22,8 @@ export const CONTRACT_EVENTS_GQL = `
           }
         `;
 
-export const REEF_TRANSFERS_GQL = `
-          subscription reefTransfers(
+export const DUST_TRANSFERS_GQL = `
+          subscription dustTransfers(
             $blockNumber: bigint
             $perPage: Int!
             $offset: Int!

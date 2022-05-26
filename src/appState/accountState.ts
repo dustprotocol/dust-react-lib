@@ -14,7 +14,7 @@ import {
   take,
   withLatestFrom,
 } from 'rxjs';
-import { Provider } from '@reef-defi/evm-provider';
+import { Provider } from '@dust-defi/evm-provider';
 import { BigNumber } from 'ethers';
 import { filter } from 'rxjs/operators';
 import { gql } from '@apollo/client';
@@ -24,26 +24,26 @@ import {
   updateSignersEvmBindings,
 } from './accountStateUtil';
 import { currentProvider$ } from './providerState';
-import { ReefSigner } from '../state';
+import { DustSigner } from '../state';
 import { apolloClientInstance$, zenToRx } from '../graphql/apollo';
 
-export const accountsSubj = new ReplaySubject<ReefSigner[] | null>(1);
-export const reloadSignersSubj = new Subject<UpdateDataCtx<ReefSigner[]>>();
+export const accountsSubj = new ReplaySubject<DustSigner[] | null>(1);
+export const reloadSignersSubj = new Subject<UpdateDataCtx<DustSigner[]>>();
 
 export const signersInjected$ = accountsSubj.pipe(
   map((signrs) => (signrs?.length ? signrs : [])),
   shareReplay(1),
 );
 
-const signersLocallyUpdatedData$: Observable<ReefSigner[]> = reloadSignersSubj.pipe(
+const signersLocallyUpdatedData$: Observable<DustSigner[]> = reloadSignersSubj.pipe(
   filter((reloadCtx: any) => !!reloadCtx.updateActions.length),
   withLatestFrom(signersInjected$),
   mergeScan(
     (
       state: {
-          all: ReefSigner[];
-          allUpdated: ReefSigner[];
-          lastUpdated: ReefSigner[];
+          all: DustSigner[];
+          allUpdated: DustSigner[];
+          lastUpdated: DustSigner[];
         },
       [updateCtx, signersInjected],
     ): any => {
@@ -89,7 +89,7 @@ const signersWithUpdatedBalances$ = combineLatest([
   mergeScan(
     (
       state: { unsub: any; balancesByAddressSubj: ReplaySubject<any> },
-      [provider, signers]: [Provider, ReefSigner[]],
+      [provider, signers]: [Provider, DustSigner[]],
     ) => {
       if (state.unsub) {
         state.unsub();
@@ -127,10 +127,10 @@ const signersWithUpdatedBalances$ = combineLatest([
   ),
   switchMap(
     (v: {
-      balancesByAddressSubj: Subject<{ balances: any; signers: ReefSigner[] }>;
+      balancesByAddressSubj: Subject<{ balances: any; signers: DustSigner[] }>;
     }) => v.balancesByAddressSubj,
   ),
-  map((balancesAndSigners: { balances: any; signers: ReefSigner[] }) => (!balancesAndSigners.signers
+  map((balancesAndSigners: { balances: any; signers: DustSigner[] }) => (!balancesAndSigners.signers
     ? []
     : balancesAndSigners.signers.map((sig) => {
       const bal = balancesAndSigners.balances.find(
@@ -188,9 +188,9 @@ const signersWithUpdatedData$ = combineLatest([
   scan(
     (
       state: {
-        lastlocallyUpdated: ReefSigner[];
+        lastlocallyUpdated: DustSigner[];
         lastIndexed: AccountEvmAddrData[];
-        lastSigners: ReefSigner[];
+        lastSigners: DustSigner[];
       },
       [signers, locallyUpdated, indexed],
     ) => {
@@ -234,28 +234,28 @@ const signersWithUpdatedData$ = combineLatest([
   map(({ signers }) => signers),
 );
 
-export const signers$: Observable<ReefSigner[]> = signersWithUpdatedData$;
+export const signers$: Observable<DustSigner[]> = signersWithUpdatedData$;
 
 export const selectAddressSubj: ReplaySubject<string | undefined> = new ReplaySubject<string | undefined>(1);
 signers$.pipe(take(1)).subscribe((signers: any): any => {
   selectAddressSubj.next(
-    localStorage.getItem('selected_address_reef') || signers[0],
+    localStorage.getItem('selected_address_dust') || signers[0],
   );
 });
-export const selectedSigner$: Observable<ReefSigner | undefined> = combineLatest([
+export const selectedSigner$: Observable<DustSigner | undefined> = combineLatest([
   selectAddressSubj.pipe(distinctUntilChanged()),
   signers$,
 ]).pipe(
   map(([selectedAddress, signers]) => {
     let foundSigner = signers?.find(
-      (signer: ReefSigner) => signer.address === selectedAddress,
+      (signer: DustSigner) => signer.address === selectedAddress,
     );
     if (!foundSigner) {
       foundSigner = signers ? signers[0] : undefined;
     }
     if (foundSigner) {
       localStorage.setItem(
-        'selected_address_reef',
+        'selected_address_dust',
         foundSigner.address || '',
       );
     }

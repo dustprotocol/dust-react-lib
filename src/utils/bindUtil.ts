@@ -1,12 +1,12 @@
-import { Provider } from '@reef-defi/evm-provider';
+import { Provider } from '@dust-defi/evm-provider';
 import { utils } from 'ethers';
-import { ReefSigner } from '../state';
+import { DustSigner } from '../state';
 import { handleErr, TxStatusHandler, TxStatusUpdate } from './transactionUtil';
 
 const displayedPopup: string[] = [];
 
 export const bindEvmAddress = (
-  signer: ReefSigner,
+  signer: DustSigner,
   provider: Provider,
   onTxChange?: TxStatusHandler,
   generateDefault?: boolean,
@@ -32,7 +32,7 @@ export const bindEvmAddress = (
     // eslint-disable-next-line no-restricted-globals,no-alert
     const isDefault = generateDefault
       // eslint-disable-next-line no-restricted-globals
-      || confirm('Enable Reef chain with Ethereum VM capabilities.');
+      || confirm('Enable Dust chain with Ethereum VM capabilities.');
     if (displayedPopup.indexOf(signer.address) < 0) {
       displayedPopup.push(signer.address);
     }
@@ -42,7 +42,7 @@ export const bindEvmAddress = (
         .claimDefaultAccount()
         .then(() => {
           if (!onTxChange) {
-            alert(`Success, Ethereum VM address is ${signer.evmAddress}. Use this address ONLY on Reef chain.`);
+            alert(`Success, Ethereum VM address is ${signer.evmAddress}. Use this address ONLY on Dust chain.`);
           } else {
             onTxChange({
               txIdent,

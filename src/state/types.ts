@@ -1,7 +1,7 @@
-import { Signer } from '@reef-defi/evm-provider';
+import { Signer } from '@dust-defi/evm-provider';
 import { BigNumber } from 'ethers';
 
-export interface ReefSigner {
+export interface DustSigner {
   name: string;
   signer: Signer;
   balance: BigNumber;

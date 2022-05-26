@@ -1,13 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useLoadPool } from '../../hooks/useLoadPool';
-import { approveAmount, getReefswapRouter } from '../../rpc';
+import { approveAmount, getDustswapRouter } from '../../rpc';
 import {
   defaultOptions,
   DefaultOptions,
   defaultSettings,
   Network,
   Pool,
-  ReefSigner,
+  DustSigner,
   REMOVE_DEFAULT_SLIPPAGE_TOLERANCE,
   resolveSettings,
   Token,
@@ -49,7 +49,7 @@ interface RemoveLiquidityComponent {
   token1: Token;
   token2: Token;
   network: Network;
-  signer?: ReefSigner;
+  signer?: DustSigner;
   options?: Partial<DefaultOptions>;
 }
 
@@ -112,7 +112,7 @@ export const RemoveLiquidityComponent = ({
       return;
     }
 
-    const reefswapRouter = getReefswapRouter(
+    const dustswapRouter = getDustswapRouter(
       network.routerAddress,
       signer.signer,
     );
@@ -145,7 +145,7 @@ export const RemoveLiquidityComponent = ({
         signer.signer,
       ))
       .then(() => setLoadingStatus('Removing supply'))
-      .then(() => reefswapRouter.removeLiquidity(
+      .then(() => dustswapRouter.removeLiquidity(
         pool.token1.address,
         pool.token2.address,
         removedLiquidity,

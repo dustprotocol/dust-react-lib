@@ -8,7 +8,7 @@ import {
   ensureTokenAmount,
   Network,
   Pool,
-  ReefSigner,
+  DustSigner,
   resolveSettings,
   Token,
   TokenSelector,
@@ -25,7 +25,7 @@ import {
   getOutputAmount,
 } from '../../utils/math';
 import { useLoadPool } from '../../hooks/useLoadPool';
-import { getReefswapRouter } from '../../rpc';
+import { getDustswapRouter } from '../../rpc';
 import { useUpdateBalance } from '../../hooks/useUpdateBalance';
 import { useUpdateSwapAmount } from '../../hooks/useUpdateAmount';
 import { useUpdateTokensPrice } from '../../hooks/useUpdateTokensPrice';
@@ -49,7 +49,7 @@ interface SwapComponent {
   buyToken: TokenWithAmount;
   sellToken: TokenWithAmount;
   network: Network;
-  account: ReefSigner;
+  account: DustSigner;
   options?: Partial<DefaultOptions>;
 }
 
@@ -93,7 +93,7 @@ const swapStatus = (
 
     ensure(amountIn1.gt(0) || amountIn2.gt(0), 'Insufficient amounts');
 
-    // WIP checking for ReefswapV2: K error
+    // WIP checking for DustswapV2: K error
     // Temporary solution was with `swapExactTokensForTokensSupportingFeeOnTransferTokens` function!
     // Error still arives when using `swapExactTokensForTokens`
 
@@ -246,11 +246,11 @@ export const SwapComponent = ({
       setStatus(`Approving ${sell.name} token`);
       const sellAmount = calculateAmount(sell);
       const minBuyAmount = calculateAmountWithPercentage(buy, percentage);
-      const reefswapRouter = getReefswapRouter(network.routerAddress, signer);
+      const dustswapRouter = getDustswapRouter(network.routerAddress, signer);
       await approveTokenAmount(sell, network.routerAddress, signer);
 
       setStatus('Executing swap');
-      await reefswapRouter.swapExactTokensForTokensSupportingFeeOnTransferTokens(
+      await dustswapRouter.swapExactTokensForTokensSupportingFeeOnTransferTokens(
         sellAmount,
         minBuyAmount,
         [sell.address, buy.address],

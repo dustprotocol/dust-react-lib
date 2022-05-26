@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { utils } from 'ethers';
 import { decodeAddress } from '@polkadot/util-crypto';
-import { Provider } from '@reef-defi/evm-provider';
+import { Provider } from '@dust-defi/evm-provider';
 import {
   calculateUsdAmount,
   handleErr,
@@ -12,12 +12,12 @@ import {
 } from '../../utils';
 import {
   ensureTokenAmount,
-  ReefSigner,
-  reefTokenWithAmount,
+  DustSigner,
+  dustTokenWithAmount,
   Token,
   TokenWithAmount,
 } from '../../state';
-import { getREEF20Contract } from '../../rpc';
+import { getDUST20Contract } from '../../rpc';
 import {
   CenterColumn,
   ComponentCenter,
@@ -47,16 +47,16 @@ import { TxStatusHandler, TxStatusUpdate } from '../../utils/transactionUtil';
 
 interface TransferComponent {
   tokens: Token[];
-  from: ReefSigner;
+  from: DustSigner;
   token?: TokenWithAmount;
   provider: Provider;
   onTxUpdate?: TxStatusHandler;
-  accounts: ReefSigner[];
-  currentAccount: ReefSigner;
+  accounts: DustSigner[];
+  currentAccount: DustSigner;
 }
 
 const TX_IDENT_ANY = 'TX_HASH_ANY';
-const REEF_TOKEN = reefTokenWithAmount();
+const DUST_TOKEN = dustTokenWithAmount();
 
 const isSubstrateAddress = (to: string): boolean => {
   if (!to || !to.startsWith('5')) {
@@ -70,12 +70,12 @@ const isSubstrateAddress = (to: string): boolean => {
 
 async function sendToEvmAddress(
   txToken: TokenWithAmount,
-  signer: ReefSigner,
+  signer: DustSigner,
   to: string,
   txHandler: TxStatusHandler,
 ): Promise<string> {
   const txIdent = Math.random().toString(10);
-  const tokenContract = await getREEF20Contract(txToken.address, signer.signer);
+  const tokenContract = await getDUST20Contract(txToken.address, signer.signer);
   if (!tokenContract) {
     handleErr(
       { message: 'Contract does not exist.' },
@@ -97,7 +97,7 @@ async function sendToEvmAddress(
           txHash: contractCall.hash,
           isInBlock: true,
           txTypeEvm: true,
-          url: `https://reefscan.com/extrinsic/${contractCall.hash}`,
+          url: `https://scan.dust.llc/extrinsic/${contractCall.hash}`,
           addresses: [signer.address],
         });
       })
@@ -113,9 +113,9 @@ async function sendToEvmAddress(
 }
 
 const filterCurrentAccount = (
-  accounts: ReefSigner[],
-  selected: ReefSigner,
-): ReefSigner[] => accounts.filter((a) => a.address !== selected.address);
+  accounts: DustSigner[],
+  selected: DustSigner,
+): DustSigner[] => accounts.filter((a) => a.address !== selected.address);
 
 const transferFeeNative = utils.parseEther('1.53').toString();
 const existentialDeposit = utils.parseEther('1.001').toString();
@@ -146,13 +146,13 @@ export const TransferComponent = ({
   currentAccount,
   accounts,
 }: TransferComponent): JSX.Element => {
-  const [availableTxAccounts, setAvailableTxAccounts] = useState<ReefSigner[]>(
+  const [availableTxAccounts, setAvailableTxAccounts] = useState<DustSigner[]>(
     [],
   );
   const [isLoading, setIsLoading] = useState(false);
   const [txToken, setTxToken] = useState(token || ({ ...tokens[0], amount: '0' } as TokenWithAmount));
   const [to, setTo] = useState('');
-  const [foundToAccountAddress, setFoundToAccountAddress] = useState<ReefSigner | null>();
+  const [foundToAccountAddress, setFoundToAccountAddress] = useState<DustSigner | null>();
   const [validationError, setValidationError] = useState('');
   const [resultMessage, setResultMessage] = useState<{
     complete: boolean;
@@ -202,7 +202,7 @@ export const TransferComponent = ({
           message,
           url:
             txUpdateData.url
-            || `https://reefscan.com/transfer/${txUpdateData.txHash}`,
+            || `https://scan.dust.llc/transfer/${txUpdateData.txHash}`,
           loading: !txUpdateData.txTypeEvm,
         });
         return;
@@ -214,7 +214,7 @@ export const TransferComponent = ({
           message: 'Token transfer has been finalized.',
           url:
             txUpdateData.url
-            || `https://reefscan.com/transfer/${txUpdateData.txHash}`,
+            || `https://scan.dust.llc/transfer/${txUpdateData.txHash}`,
         });
       }
     }
@@ -228,11 +228,11 @@ export const TransferComponent = ({
   }, [token]);
 
   useEffect(() => {
-    const reefAddress = reefTokenWithAmount().address;
-    const selectTokenAddr = txToken ? txToken.address : reefAddress;
+    const dustAddress = dustTokenWithAmount().address;
+    const selectTokenAddr = txToken ? txToken.address : dustAddress;
     let newTxToken = tokens.find((t) => t.address === selectTokenAddr);
     if (!newTxToken) {
-      newTxToken = tokens.find((t) => t.address === reefAddress);
+      newTxToken = tokens.find((t) => t.address === dustAddress);
     }
     if (!newTxToken) {
       [newTxToken] = tokens;
@@ -242,7 +242,7 @@ export const TransferComponent = ({
 
   useEffect(() => {
     const exceptCurrent = filterCurrentAccount(accounts, currentAccount);
-    if (txToken?.address === REEF_TOKEN.address) {
+    if (txToken?.address === DUST_TOKEN.address) {
       setAvailableTxAccounts(exceptCurrent);
       return;
     }
@@ -329,7 +329,7 @@ export const TransferComponent = ({
     const amountOverBalance = utils
       .parseEther(txToken.amount)
       .gt(txToken.balance);
-    if (!amountOverBalance && txToken.address === REEF_TOKEN.address) {
+    if (!amountOverBalance && txToken.address === DUST_TOKEN.address) {
       const isOverTxFee = parseFloat(txToken.amount)
         > parseFloat(toAmountInputValue(getSubtractedFee(txToken)));
       if (isOverTxFee) {
@@ -337,7 +337,7 @@ export const TransferComponent = ({
           `Amount too high for transfer fee ( ~${utils.formatUnits(
             transferFeeNative,
             18,
-          )}REEF)`,
+          )}DUST)`,
         );
         return;
       }
@@ -376,7 +376,7 @@ export const TransferComponent = ({
     setFoundToAccountAddress(null);
   }, [to, accounts]);
 
-  const onAccountSelect = (_: any, selected: ReefSigner): void => {
+  const onAccountSelect = (_: any, selected: DustSigner): void => {
     const selectAcc = async (): Promise<void> => {
       let addr = '';
       if (!addr && selected.isEvmClaimed) {
@@ -437,7 +437,7 @@ export const TransferComponent = ({
                 onAddressChange={addressChanged}
                 hideSelectTokenCommonBaseView
                 afterBalanceEl={
-                  txToken?.address === REEF_TOKEN.address
+                  txToken?.address === DUST_TOKEN.address
                   && isSubstrateAddress(to) ? (
                     <span>
                       {txToken.amount
@@ -493,7 +493,7 @@ export const TransferComponent = ({
             title={(
               <div>
                 Select account&nbsp;
-                {txToken?.address !== REEF_TOKEN.address && (
+                {txToken?.address !== DUST_TOKEN.address && (
                   <span className="text-xs">(Ethereum VM enabled)</span>
                 )}
               </div>
@@ -544,7 +544,7 @@ export const TransferComponent = ({
                         href={`${resultMessage.url}`}
                         rel="noreferrer"
                       >
-                        View transaction on reefscan.com
+                        View transaction on dustscan.com
                       </a>
                     </div>
                   )}

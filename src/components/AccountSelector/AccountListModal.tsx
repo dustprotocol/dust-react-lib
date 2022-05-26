@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react';
-import { ReefSigner } from '../../state';
+import { DustSigner } from '../../state';
 import { BackIcon, CloseIcon } from '../common/Icons';
 import { ListItem } from '../common/List';
 import { Modal, ModalHeader } from '../common/Modal';
@@ -9,8 +9,8 @@ import { getSignerIdent } from '../../rpc';
 
 interface AccountListModal {
   id: string;
-  accounts: ReefSigner[];
-  selectAccount: (index: number, signer: ReefSigner) => void;
+  accounts: DustSigner[];
+  selectAccount: (index: number, signer: DustSigner) => void;
   backButtonModalId?: string;
   title?: string | ReactElement;
 }

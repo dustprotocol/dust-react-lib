@@ -10,10 +10,10 @@ import { BoldText } from '../common/Text';
 
 interface PoolTransactions {
   address?: string;
-  reefscanFrontendUrl: string;
+  dustscanFrontendUrl: string;
 }
 
-export const PoolTransactions = ({ address, reefscanFrontendUrl } : PoolTransactions): JSX.Element => {
+export const PoolTransactions = ({ address, dustscanFrontendUrl } : PoolTransactions): JSX.Element => {
   const [pageIndex, setPageIndex] = useState(0);
   const [type, setType] = useState<TransactionTypes>('All');
 
@@ -48,7 +48,7 @@ export const PoolTransactions = ({ address, reefscanFrontendUrl } : PoolTransact
 
         return (
           <tr key={id}>
-            <td className="fs-5"><a href={`${reefscanFrontendUrl}/extrinsic/${hash}`}>{description(transactionType, amount_1, symbol1, symbol2)}</a></td>
+            <td className="fs-5"><a href={`${dustscanFrontendUrl}/extrinsic/${hash}`}>{description(transactionType, amount_1, symbol1, symbol2)}</a></td>
             <td className="text-end fs-5 d-none d-md-table-cell d-lg-table-cell d-xl-table-cell">
               {formatAmount(amount_1 > 0 ? amount_1 : amount_in_1, decimal1)}
               {' '}
@@ -59,7 +59,7 @@ export const PoolTransactions = ({ address, reefscanFrontendUrl } : PoolTransact
               {' '}
               {symbol2}
             </td>
-            <td className="text-end fs-5 d-none d-xl-table-cell"><a href={`${reefscanFrontendUrl}/account/${to_address || signer}`}>{shortAddress(to_address || signer)}</a></td>
+            <td className="text-end fs-5 d-none d-xl-table-cell"><a href={`${dustscanFrontendUrl}/account/${to_address || signer}`}>{shortAddress(to_address || signer)}</a></td>
             <td className="text-end pe-4 fs-5">{formatAgoDate(timestamp)}</td>
           </tr>
         );

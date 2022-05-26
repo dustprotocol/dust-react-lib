@@ -15,7 +15,7 @@ type Open = (address1: string, address2: string) => void;
 
 interface PoolPage {
   address: string;
-  reefscanFrontendUrl: string;
+  dustscanFrontendUrl: string;
   openTrade: Open;
   openAddLiquidity: Open;
   openRemoveLiquidity: Open;
@@ -24,7 +24,7 @@ interface PoolPage {
   getIconUrl: (address: string) => string;
 }
 export const PoolPage = ({
-  address, reefscanFrontendUrl, openTrade, openAddLiquidity, openRemoveLiquidity, getIconUrl,
+  address, dustscanFrontendUrl, openTrade, openAddLiquidity, openRemoveLiquidity, getIconUrl,
 }: PoolPage): JSX.Element => {
   const { data: poolData } = usePoolQuery(address);
   const { data: reservesData } = useCurrentPoolReserve(address);
@@ -192,7 +192,7 @@ export const PoolPage = ({
           </div>
         </div>
 
-        <PoolTransactions address={address} reefscanFrontendUrl={reefscanFrontendUrl} />
+        <PoolTransactions address={address} dustscanFrontendUrl={dustscanFrontendUrl} />
       </div>
     </div>
   );

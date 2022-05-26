@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
 
-const REEF_TOKEN_ID = 'reef-finance';
+const DUST_TOKEN_ID = 'dust-finance';
 
 interface PriceRes {
   [currenty: string]: {
@@ -52,4 +52,4 @@ export const getTokenEthAddressListPrices = async (
     return tknPrices;
   }, {}));
 
-export const retrieveReefCoingeckoPrice = async (): Promise<number> => getTokenPrice(REEF_TOKEN_ID);
+export const retrieveDustCoingeckoPrice = async (): Promise<number> => getTokenPrice(DUST_TOKEN_ID);

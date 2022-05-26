@@ -72,7 +72,7 @@ export const OpenModalButton: React.FC<OpenModalButton> = ({
     disabled={disabled}
     data-bs-toggle="modal"
     data-bs-target={`#${id}`}
-    className={className || 'btn btn-reef btn-lg border-rad w-100'}
+    className={className || 'btn btn-dust btn-lg border-rad w-100'}
   >
     <span>{children}</span>
   </button>
@@ -99,7 +99,7 @@ const ConfirmationModal: React.FC<ConfirmationModal> = ({
     </ModalHeader>
     <ModalBody>{children}</ModalBody>
     <ModalFooter>
-      <ModalClose onClick={confirmFun} className="btn btn-reef border-rad">
+      <ModalClose onClick={confirmFun} className="btn btn-dust border-rad">
         <span>{confirmBtnLabel}</span>
       </ModalClose>
     </ModalFooter>

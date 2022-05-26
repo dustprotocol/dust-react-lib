@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import { Provider } from '@reef-defi/evm-provider';
+import { Provider } from '@dust-defi/evm-provider';
 import { ApolloClient } from '@apollo/client';
 import { useObservableState } from './useObservableState';
-import { availableNetworks, Network, ReefSigner } from '../state';
+import { availableNetworks, Network, DustSigner } from '../state';
 import { useProvider } from './useProvider';
 import {
   currentNetwork$,
@@ -24,11 +24,11 @@ const getGQLUrls = (network: Network): { ws: string; http: string }|undefined =>
     : network.graphqlUrl;
   return { ws, http };
 };
-// export type UseInitReefState = [ReefSigner[] | undefined, Provider | undefined, Network | undefined, boolean, any];
+// export type UseInitDustState = [DustSigner[] | undefined, Provider | undefined, Network | undefined, boolean, any];
 
 interface State {
   loading: boolean;
-  signers?: ReefSigner[];
+  signers?: DustSigner[];
   provider?: Provider;
   network?: Network;
   error?: any; // TODO!
@@ -36,10 +36,10 @@ interface State {
 
 interface StateOptions {
   network: Network;
-  signers?: ReefSigner[];
+  signers?: DustSigner[];
   client?: ApolloClient<any>;
 }
-export const useInitReefState = (
+export const useInitDustState = (
   applicationDisplayName: string,
   {
     network = availableNetworks.mainnet,

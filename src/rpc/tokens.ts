@@ -1,6 +1,6 @@
-import { Signer } from '@reef-defi/evm-provider';
+import { Signer } from '@dust-defi/evm-provider';
 import { calculateAmount } from '../utils/math';
-import { getREEF20Contract } from './rpc';
+import { getDUST20Contract } from './rpc';
 import { BasicToken, Token, TokenWithAmount } from '../state';
 
 export const retrieveTokenAddresses = (tokens: Token[]): string[] => tokens.map((token) => token.address);
@@ -10,7 +10,7 @@ export const approveTokenAmount = async (
   routerAddress: string,
   signer: Signer,
 ): Promise<void> => {
-  const tokenContract = await getREEF20Contract(token.address, signer);
+  const tokenContract = await getDUST20Contract(token.address, signer);
   if (tokenContract) {
     const bnAmount = calculateAmount(token);
     await tokenContract.contract.approve(routerAddress, bnAmount);
@@ -25,7 +25,7 @@ export const approveAmount = async (
   amount: string,
   signer: Signer,
 ): Promise<void> => {
-  const tokenContract = await getREEF20Contract(from, signer);
+  const tokenContract = await getDUST20Contract(from, signer);
   if (tokenContract) {
     await tokenContract.contract.approve(to, amount);
     return;
@@ -39,7 +39,7 @@ export const loadToken = async (
   iconUrl = '',
 ): Promise<Token | null> => {
   // TODO resolve iconUrl base64 from address
-  const contractValue = await getREEF20Contract(address, signer);
+  const contractValue = await getDUST20Contract(address, signer);
   if (!contractValue) {
     console.log('Token contract does not exist addr=', address);
     return null;

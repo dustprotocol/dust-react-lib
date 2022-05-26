@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 import {
-  Color, ReefSigner, Token, TokenWithAmount,
+  Color, DustSigner, Token, TokenWithAmount,
 } from '../../state';
 import { showBalance, toUnits } from '../../utils/math';
 import { SubCard } from '../common/Card';
@@ -21,7 +21,7 @@ interface TokenAmountFieldProps {
   onAmountChange: (amount: string) => void;
   onAddressChange?: (address: string) => Promise<void>;
   hideSelectTokenCommonBaseView?: boolean;
-  signer: ReefSigner;
+  signer: DustSigner;
 }
 
 const TokenAmountFieldBase: React.FC<TokenAmountFieldProps> = ({

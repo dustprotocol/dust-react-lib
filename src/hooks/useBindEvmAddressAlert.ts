@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
-import { Provider } from '@reef-defi/evm-provider';
-import { ReefSigner } from '../state';
+import { Provider } from '@dust-defi/evm-provider';
+import { DustSigner } from '../state';
 import { bindEvmAddress } from '../utils/bindUtil';
 
 export const useBindEvmAddressAlert = (
-  currentSigner: ReefSigner | undefined,
+  currentSigner: DustSigner | undefined,
   provider: Provider | undefined,
 ): void => {
   useEffect(() => {

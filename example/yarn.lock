@@ -3583,41 +3583,41 @@
     "@types/websocket" "^1.0.4"
     websocket "^1.0.34"
 
-"@reef-defi/api-derive@^1.0.1":
+"@dust-defi/api-derive@^1.0.1":
   version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@reef-defi/api-derive/-/api-derive-1.0.3.tgz#a3b53a50451b4e19c9afd63af110f653e134c43e"
+  resolved "https://registry.yarnpkg.com/@dust-defi/api-derive/-/api-derive-1.0.3.tgz#a3b53a50451b4e19c9afd63af110f653e134c43e"
   integrity sha512-vRDojmYdqNSAqGordxclAe/bR7IgP7e+ptdzgeTgquuX1xXVek2Pmt/xZqR3dvM8IGW4HQL0/6jvGMuCc4tfqg==
   dependencies:
     "@babel/runtime" "^7.10.2"
     "@open-web3/orml-types" "^1.0.1"
     "@polkadot/api-derive" "^6.3.1"
-    "@reef-defi/types" "^1.0.1"
+    "@dust-defi/types" "^1.0.1"
 
-"@reef-defi/api-derive@^1.0.4":
+"@dust-defi/api-derive@^1.0.4":
   version "1.0.4"
-  resolved "https://registry.yarnpkg.com/@reef-defi/api-derive/-/api-derive-1.0.4.tgz#4c2478944d2ce1509ccef4447339d2944a0480ed"
+  resolved "https://registry.yarnpkg.com/@dust-defi/api-derive/-/api-derive-1.0.4.tgz#4c2478944d2ce1509ccef4447339d2944a0480ed"
   integrity sha512-Eoa0XzNyy54c+DuRjDXaIC2auURWNtfmR4M2/7A0/vi4UClmMXMm4eOr3bMrxf6WWwzVAjkUEjb/fqjPcTk0YA==
   dependencies:
     "@babel/runtime" "^7.10.2"
     "@open-web3/orml-types" "^1.0.1"
     "@polkadot/api-derive" "~6.4.2"
-    "@reef-defi/types" "^1.0.1"
+    "@dust-defi/types" "^1.0.1"
 
-"@reef-defi/api@^1.0.4":
+"@dust-defi/api@^1.0.4":
   version "1.0.4"
-  resolved "https://registry.yarnpkg.com/@reef-defi/api/-/api-1.0.4.tgz#8c03a50218560a9f266b0c1d75554da343f21882"
+  resolved "https://registry.yarnpkg.com/@dust-defi/api/-/api-1.0.4.tgz#8c03a50218560a9f266b0c1d75554da343f21882"
   integrity sha512-WoUq+UvyOQsrxP7eq8P9YHrdq/2z66+uSUkb8Xu3qiwQXFqryt+5ZOWcLHKdEZnLxS1jhFh/0DX3F2OqwbwWlA==
   dependencies:
     "@babel/runtime" "^7.10.2"
     "@open-web3/orml-api-derive" "^1.0.1"
     "@polkadot/api" "~6.4.2"
     "@polkadot/rpc-core" "~6.4.2"
-    "@reef-defi/api-derive" "^1.0.1"
-    "@reef-defi/types" "^1.0.1"
+    "@dust-defi/api-derive" "^1.0.1"
+    "@dust-defi/types" "^1.0.1"
 
-"@reef-defi/evm-provider@^1.0.6":
+"@dust-defi/evm-provider@^1.0.6":
   version "1.0.6"
-  resolved "https://registry.yarnpkg.com/@reef-defi/evm-provider/-/evm-provider-1.0.6.tgz#d5aece508731f2a3a913a114be178d632b992276"
+  resolved "https://registry.yarnpkg.com/@dust-defi/evm-provider/-/evm-provider-1.0.6.tgz#d5aece508731f2a3a913a114be178d632b992276"
   integrity sha512-jSJvixJ/jleNYVUKg91e4/6GV7i/GbPQ+SM6eW508fNKsOieS5HUUqySf2NhY3UvSKgv8lMoFatteylZneK6Bg==
   dependencies:
     "@open-web3/dev-config" "^0.1.13"
@@ -3628,51 +3628,51 @@
     "@polkadot/types" "~6.4.2"
     "@polkadot/util" "~7.9.2"
     "@polkadot/util-crypto" "~7.9.2"
-    "@reef-defi/api" "^1.0.4"
-    "@reef-defi/api-derive" "^1.0.4"
-    "@reef-defi/type-definitions" "^1.0.4"
-    "@reef-defi/types" "^1.0.4"
+    "@dust-defi/api" "^1.0.4"
+    "@dust-defi/api-derive" "^1.0.4"
+    "@dust-defi/type-definitions" "^1.0.4"
+    "@dust-defi/types" "^1.0.4"
     blakejs "~1.1.0"
     ethers "~5.5.0"
 
-"@reef-defi/extension-dapp@^0.41.2":
+"@dust-defi/extension-dapp@^0.41.2":
   version "0.41.5"
-  resolved "https://registry.yarnpkg.com/@reef-defi/extension-dapp/-/extension-dapp-0.41.5.tgz#40e3defdb7ed101880edb6389e2caa5922cf39ff"
+  resolved "https://registry.yarnpkg.com/@dust-defi/extension-dapp/-/extension-dapp-0.41.5.tgz#40e3defdb7ed101880edb6389e2caa5922cf39ff"
   integrity sha512-ge1kIrkZS/W13Fn6dBxLpNVOkr9xL9Iw9qECI8VQM0mSY8i1mHsgm/kWSlw+QfY33S6+PKy6yvTSyD7Zf52Ebg==
   dependencies:
     "@babel/runtime" "^7.16.0"
-    "@reef-defi/extension-inject" "^0.41.5"
-    "@reef-defi/util" "^7.8.2"
-    "@reef-defi/util-crypto" "^7.8.2"
+    "@dust-defi/extension-inject" "^0.41.5"
+    "@dust-defi/util" "^7.8.2"
+    "@dust-defi/util-crypto" "^7.8.2"
 
-"@reef-defi/extension-inject@^0.41.2", "@reef-defi/extension-inject@^0.41.5":
+"@dust-defi/extension-inject@^0.41.2", "@dust-defi/extension-inject@^0.41.5":
   version "0.41.5"
-  resolved "https://registry.yarnpkg.com/@reef-defi/extension-inject/-/extension-inject-0.41.5.tgz#4b5be60e0f6ac71c5df00748c802c5a2265cd1ae"
+  resolved "https://registry.yarnpkg.com/@dust-defi/extension-inject/-/extension-inject-0.41.5.tgz#4b5be60e0f6ac71c5df00748c802c5a2265cd1ae"
   integrity sha512-uiSQVRmzeRkk4Bzj9Z1KbF3xNcIMIJEfSk8FwGOp6sYkAoYu5sAG01pq6Y3AkYDeBFYKki442+KGHK7a/ZnIEg==
   dependencies:
     "@babel/runtime" "^7.16.0"
 
-"@reef-defi/networks@7.8.2":
+"@dust-defi/networks@7.8.2":
   version "7.8.2"
-  resolved "https://registry.yarnpkg.com/@reef-defi/networks/-/networks-7.8.2.tgz#52d2e0bbbfbf61449ae410a4b79a46b222ecf7bc"
+  resolved "https://registry.yarnpkg.com/@dust-defi/networks/-/networks-7.8.2.tgz#52d2e0bbbfbf61449ae410a4b79a46b222ecf7bc"
   integrity sha512-ZOVH67ztkbXhqewcvv4O76L5om+eKAKUAc1a3qabJBBe9RLAnYuTc1p9uhWt/aHqdCqvuIiAGgBpMY9sWmokIQ==
   dependencies:
     "@babel/runtime" "^7.16.0"
 
-"@reef-defi/react-lib@link:..":
+"@dust-defi/react-lib@link:..":
   version "0.0.0"
   uid ""
 
-"@reef-defi/type-definitions@^1.0.4":
+"@dust-defi/type-definitions@^1.0.4":
   version "1.0.4"
-  resolved "https://registry.yarnpkg.com/@reef-defi/type-definitions/-/type-definitions-1.0.4.tgz#60115c1777f00b721970fd107da99df5ce856134"
+  resolved "https://registry.yarnpkg.com/@dust-defi/type-definitions/-/type-definitions-1.0.4.tgz#60115c1777f00b721970fd107da99df5ce856134"
   integrity sha512-NYucXBQQ2VL2En+KEL1uPLx8HaI8WZQ5mVwJEj6xiutUJFGWXVPxAclVytzkWVOIKzwsVNO6Hdpg8dlFS03DRQ==
   dependencies:
     "@open-web3/orml-type-definitions" "^1.0.1"
 
-"@reef-defi/types@^1.0.1":
+"@dust-defi/types@^1.0.1":
   version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@reef-defi/types/-/types-1.0.3.tgz#d5c98a802ac60656ab0983b4d9b08e913dc196c3"
+  resolved "https://registry.yarnpkg.com/@dust-defi/types/-/types-1.0.3.tgz#d5c98a802ac60656ab0983b4d9b08e913dc196c3"
   integrity sha512-E5729C/mqU0eW3S9U0HU4WFnCoTym27Zp85XHTAKA2BZ+AZWyY6zY+1d4hYBL6ZqxGjr9PmS0O2KmmeiwXArhA==
   dependencies:
     "@babel/runtime" "^7.10.2"
@@ -3682,9 +3682,9 @@
     "@polkadot/typegen" "^6.3.1"
     "@polkadot/types" "^6.3.1"
 
-"@reef-defi/types@^1.0.4":
+"@dust-defi/types@^1.0.4":
   version "1.0.4"
-  resolved "https://registry.yarnpkg.com/@reef-defi/types/-/types-1.0.4.tgz#71c5522163275f5fc1a6708259e09a369eb07283"
+  resolved "https://registry.yarnpkg.com/@dust-defi/types/-/types-1.0.4.tgz#71c5522163275f5fc1a6708259e09a369eb07283"
   integrity sha512-xTPQcEgkaK0ycmR5PO044TS3ZmXblKl1qapt8jPw0dLIpqM7CxDg0Xev44d7cuj47DNknP8OgrTjFAa9Sq6qfg==
   dependencies:
     "@babel/runtime" "^7.10.2"
@@ -3694,16 +3694,16 @@
     "@polkadot/typegen" "~6.4.2"
     "@polkadot/types" "~6.4.2"
 
-"@reef-defi/util-crypto@^7.8.2":
+"@dust-defi/util-crypto@^7.8.2":
   version "7.8.2"
-  resolved "https://registry.yarnpkg.com/@reef-defi/util-crypto/-/util-crypto-7.8.2.tgz#eb99650bd9786c8b592d413e5be24b7436720569"
+  resolved "https://registry.yarnpkg.com/@dust-defi/util-crypto/-/util-crypto-7.8.2.tgz#eb99650bd9786c8b592d413e5be24b7436720569"
   integrity sha512-QbsNy6gp3yR/Pt4v0lpHdqTjrdP8fpomRBBcHmv0WoyefSQH636vIDDbdqAiSo7uuNa/nOWOICJk1+HKHr4eHg==
   dependencies:
     "@babel/runtime" "^7.16.0"
     "@polkadot/wasm-crypto" "^4.2.1"
-    "@reef-defi/networks" "7.8.2"
-    "@reef-defi/util" "7.8.2"
-    "@reef-defi/x-randomvalues" "7.8.2"
+    "@dust-defi/networks" "7.8.2"
+    "@dust-defi/util" "7.8.2"
+    "@dust-defi/x-randomvalues" "7.8.2"
     base-x "^3.0.9"
     base64-js "^1.5.1"
     blakejs "^1.1.1"
@@ -3717,49 +3717,49 @@
     tweetnacl "^1.0.3"
     xxhashjs "^0.2.2"
 
-"@reef-defi/util@7.8.2", "@reef-defi/util@^7.8.2":
+"@dust-defi/util@7.8.2", "@dust-defi/util@^7.8.2":
   version "7.8.2"
-  resolved "https://registry.yarnpkg.com/@reef-defi/util/-/util-7.8.2.tgz#8f03851211fb82f6afa6158641068fa6d4793ad7"
+  resolved "https://registry.yarnpkg.com/@dust-defi/util/-/util-7.8.2.tgz#8f03851211fb82f6afa6158641068fa6d4793ad7"
   integrity sha512-gPtSVDqUsAK1uEjQ8XyRgjlWIUMTo1qq+AO4IoYH/xc5jjQkEJ9rYwbYD3x8ZgB1Zca/uOjNbAVRp0LVmDABaA==
   dependencies:
     "@babel/runtime" "^7.16.0"
-    "@reef-defi/x-textdecoder" "7.8.2"
-    "@reef-defi/x-textencoder" "7.8.2"
+    "@dust-defi/x-textdecoder" "7.8.2"
+    "@dust-defi/x-textencoder" "7.8.2"
     "@types/bn.js" "^4.11.6"
     bn.js "^4.12.0"
     camelcase "^6.2.0"
     ip-regex "^4.3.0"
 
-"@reef-defi/x-global@7.8.2":
+"@dust-defi/x-global@7.8.2":
   version "7.8.2"
-  resolved "https://registry.yarnpkg.com/@reef-defi/x-global/-/x-global-7.8.2.tgz#9a2dba2fb9fa4edd6d0b831da7afda469f94636e"
+  resolved "https://registry.yarnpkg.com/@dust-defi/x-global/-/x-global-7.8.2.tgz#9a2dba2fb9fa4edd6d0b831da7afda469f94636e"
   integrity sha512-XZ0BfOCkAFgeszI6WxO41Dt6fWG6EOdDhNuJp+zCmrCgmorMna/UBKNwrGbXfGKTqRF2P4y/pZdzg4D4gKYEAg==
   dependencies:
     "@babel/runtime" "^7.16.0"
 
-"@reef-defi/x-randomvalues@7.8.2":
+"@dust-defi/x-randomvalues@7.8.2":
   version "7.8.2"
-  resolved "https://registry.yarnpkg.com/@reef-defi/x-randomvalues/-/x-randomvalues-7.8.2.tgz#060394c177060a645120f4cd4928052b2f32fc0d"
+  resolved "https://registry.yarnpkg.com/@dust-defi/x-randomvalues/-/x-randomvalues-7.8.2.tgz#060394c177060a645120f4cd4928052b2f32fc0d"
   integrity sha512-ldeMqOp/XhwYhMbZRfxa+iLVjGumorb0GBJf3O1XitSe3BFXRRykE1pHKeOk/TIh96vXRziXLYhKgs4KHMoBKQ==
   dependencies:
     "@babel/runtime" "^7.16.0"
-    "@reef-defi/x-global" "7.8.2"
+    "@dust-defi/x-global" "7.8.2"
 
-"@reef-defi/x-textdecoder@7.8.2":
+"@dust-defi/x-textdecoder@7.8.2":
   version "7.8.2"
-  resolved "https://registry.yarnpkg.com/@reef-defi/x-textdecoder/-/x-textdecoder-7.8.2.tgz#17f9cbbb3b84c1b0c315cb9f847602a31404d63a"
+  resolved "https://registry.yarnpkg.com/@dust-defi/x-textdecoder/-/x-textdecoder-7.8.2.tgz#17f9cbbb3b84c1b0c315cb9f847602a31404d63a"
   integrity sha512-/VdkDbIqwHyhh0OJqPuZvV36GfRsgMOxHDSuoQnSqHW8sUlzWCycxh79c3GNV3YV/7Jf5PnVApI9/8fV7pbdDA==
   dependencies:
     "@babel/runtime" "^7.16.0"
-    "@reef-defi/x-global" "7.8.2"
+    "@dust-defi/x-global" "7.8.2"
 
-"@reef-defi/x-textencoder@7.8.2":
+"@dust-defi/x-textencoder@7.8.2":
   version "7.8.2"
-  resolved "https://registry.yarnpkg.com/@reef-defi/x-textencoder/-/x-textencoder-7.8.2.tgz#ffa05a6d319693fd01fd31389a02d0125a887626"
+  resolved "https://registry.yarnpkg.com/@dust-defi/x-textencoder/-/x-textencoder-7.8.2.tgz#ffa05a6d319693fd01fd31389a02d0125a887626"
   integrity sha512-UMNvqcIC1FBVLNDF/gvq98/CRmIw39kY8+E8p4MRnKADriexvfgST37hTrUptmDKXSJSllilJtvz0DLfLiR3jA==
   dependencies:
     "@babel/runtime" "^7.16.0"
-    "@reef-defi/x-global" "7.8.2"
+    "@dust-defi/x-global" "7.8.2"
 
 "@rollup/plugin-babel@^5.2.0":
   version "5.3.1"

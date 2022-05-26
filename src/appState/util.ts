@@ -19,14 +19,14 @@ export const combineTokensDistinct = ([tokens1, tokens2]: [
   return combinedT;
 };
 
-export const toTokensWithPrice = ([tokens, reefPrice, pools]: [
+export const toTokensWithPrice = ([tokens, dustPrice, pools]: [
   Token[],
   number,
   Pool[]
 ]): TokenWithAmount[] => tokens.map(
   (token) => ({
     ...token,
-    price: calculateTokenPrice(token, pools, reefPrice),
+    price: calculateTokenPrice(token, pools, dustPrice),
   } as TokenWithAmount),
 );
 

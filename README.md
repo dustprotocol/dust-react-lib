@@ -1,13 +1,13 @@
-# @reef-defi/react-lib
+# @dust-defi/react-lib
 
-> Reef React Library
+> Dust React Library
 
-[![NPM](https://img.shields.io/npm/v/@reef-defi/react-lib.svg)](https://www.npmjs.com/package/@reef-defi/react-lib) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+[![NPM](https://img.shields.io/npm/v/@dust-defi/react-lib.svg)](https://www.npmjs.com/package/@dust-defi/react-lib) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
 ## Install
 
 ```bash
-yarn add @reef-defi/react-lib
+yarn add @dust-defi/react-lib
 ```
 
 ## Usage
@@ -15,8 +15,8 @@ yarn add @reef-defi/react-lib
 ```tsx
 import React, { Component } from 'react'
 
-import { Components } from '@reef-defi/react-lib'
-import '@reef-defi/react-lib/dist/index.css'
+import { Components } from '@dust-defi/react-lib'
+import '@dust-defi/react-lib/dist/index.css'
 
 const { Card, Button } = Components;
 

@@ -1,10 +1,10 @@
-import { Signer } from '@reef-defi/evm-provider';
+import { Signer } from '@dust-defi/evm-provider';
 import { useEffect, useRef, useState } from 'react';
 import { BigNumber } from 'ethers';
-import { retrieveReefCoingeckoPrice } from '../api';
+import { retrieveDustCoingeckoPrice } from '../api';
 import { loadPool } from '../rpc';
 import {
-  Pool, reefTokenWithAmount, Token, TokenWithAmount,
+  Pool, dustTokenWithAmount, Token, TokenWithAmount,
 } from '../state';
 import { ensureVoidRun } from '../utils';
 import { poolRatio } from '../utils/math';
@@ -20,7 +20,7 @@ interface UpdateTokensPriceHook {
   setToken2: (token: TokenWithAmount) => void;
 }
 
-const REEF_TOKEN = reefTokenWithAmount();
+const DUST_TOKEN = dustTokenWithAmount();
 
 export const useUpdateTokensPrice = ({
   pool,
@@ -49,15 +49,15 @@ export const useUpdateTokensPrice = ({
       try {
         mounted.current = true;
         setIsLoading(true);
-        const reefPrice = await retrieveReefCoingeckoPrice();
+        const dustPrice = await retrieveDustCoingeckoPrice();
 
         // const baseRatio = poolRatio(pool);
-        if (token1.address === REEF_TOKEN.address) {
+        if (token1.address === DUST_TOKEN.address) {
           const ratio = BigNumber.from(pool.reserve1).mul(1000000).div(pool.reserve2).toNumber() / 1000000;
-          updateTokens(reefPrice, reefPrice * ratio);
-        } else if (token2.address === REEF_TOKEN.address) {
+          updateTokens(dustPrice, dustPrice * ratio);
+        } else if (token2.address === DUST_TOKEN.address) {
           const ratio = BigNumber.from(pool.reserve2).mul(1000000).div(pool.reserve1).toNumber() / 1000000;
-          updateTokens(reefPrice * ratio, reefPrice);
+          updateTokens(dustPrice * ratio, dustPrice);
         } else {
           const sellPool = await loadPool(
             tokens[0],
@@ -69,8 +69,8 @@ export const useUpdateTokensPrice = ({
           const ratio = BigNumber.from(pool.reserve1).mul(1000000).div(pool.reserve2).toNumber() / 1000000;
           const sellRatio = poolRatio(sellPool);
           updateTokens(
-            reefPrice * sellRatio,
-            reefPrice * sellRatio * ratio,
+            dustPrice * sellRatio,
+            dustPrice * sellRatio * ratio,
           );
         }
       } catch (error) {

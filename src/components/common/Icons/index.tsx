@@ -176,11 +176,11 @@ export const TokenIcon = ({ src }: TokenIcon): JSX.Element => (
   </div>
 );
 
-interface ReefAddressIcon {
+interface DustAddressIcon {
   address: string;
 }
 
-export const ReefAddressIcon = ({ address }: ReefAddressIcon): JSX.Element => (
+export const DustAddressIcon = ({ address }: DustAddressIcon): JSX.Element => (
   <div className="rounded-circle bg-white">
     <Identicon value={address} size={30} theme="substrate" />
   </div>

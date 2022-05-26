@@ -1,6 +1,6 @@
 {
-  "short_name": "@reef-defi/react-lib",
-  "name": "@reef-defi/react-lib",
+  "short_name": "@dust-defi/react-lib",
+  "name": "@dust-defi/react-lib",
   "icons": [
     {
       "src": "favicon.ico",

@@ -1,6 +1,6 @@
-import { Provider } from '@reef-defi/evm-provider';
+import { Provider } from '@dust-defi/evm-provider';
 import { BigNumber } from 'ethers';
-import { availableNetworks, Network, ReefSigner } from '../state';
+import { availableNetworks, Network, DustSigner } from '../state';
 
 export type TxStatusHandler = (status: TxStatusUpdate) => void;
 
@@ -27,7 +27,7 @@ export const handleErr = (
   txIdent: string,
   txHash: string,
   txHandler: TxStatusHandler,
-  signer: ReefSigner,
+  signer: DustSigner,
 ): void => {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
@@ -38,7 +38,7 @@ export const handleErr = (
     && (message.indexOf('-32603: execution revert: 0x') > -1
       || message?.indexOf('InsufficientBalance') > -1)
   ) {
-    message = 'You must allow minimum 60 REEF on account for Ethereum VM transaction even if transaction fees will be much lower.';
+    message = 'You must allow minimum 60 DUST on account for Ethereum VM transaction even if transaction fees will be much lower.';
     code = TX_STATUS_ERROR_CODE.ERROR_MIN_BALANCE_AFTER_TX;
   }
   if (message && message?.startsWith('1010')) {
@@ -60,7 +60,7 @@ export const handleErr = (
   });
 };
 
-export const nativeTransfer = async (amount: string, destinationAddress: string, provider: Provider, signer: ReefSigner): Promise<void> => {
+export const nativeTransfer = async (amount: string, destinationAddress: string, provider: Provider, signer: DustSigner): Promise<void> => {
   await provider.api.tx.balances
     .transfer(destinationAddress, amount)
     .signAndSend(signer.address, { signer: signer.signer.signingKey });
@@ -68,7 +68,7 @@ export const nativeTransfer = async (amount: string, destinationAddress: string,
 
 export const sendToNativeAddress = (
   provider: Provider,
-  signer: ReefSigner,
+  signer: DustSigner,
   toAmt: BigNumber,
   to: string,
   txHandler: TxStatusHandler,
@@ -100,4 +100,4 @@ export const sendToNativeAddress = (
   return txIdent;
 };
 
-export const getExtrinsicUrl = (hash: string, network: Network = availableNetworks.mainnet): string => `${network.reefscanFrontendUrl}/extrinsic/${hash}`;
+export const getExtrinsicUrl = (hash: string, network: Network = availableNetworks.mainnet): string => `${network.dustscanFrontendUrl}/extrinsic/${hash}`;

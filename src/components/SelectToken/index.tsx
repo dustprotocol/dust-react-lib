@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { utils } from 'ethers';
 import { useAsyncEffect } from '../../hooks';
-import { ReefSigner, Token } from '../../state';
+import { DustSigner, Token } from '../../state';
 import {
   DataProgress,
   DataWithProgress,
@@ -42,7 +42,7 @@ interface SelectToken {
   onTokenSelect: (newToken: Token) => void;
   onAddressChange?: (address: string) => Promise<void>;
   hideCommonBaseView?: boolean;
-  signer: ReefSigner;
+  signer: DustSigner;
 }
 
 const COMMON_BASES = ['0x0000000000000000000000000000000001000000'];
@@ -145,7 +145,7 @@ const SelectToken = ({
       <button
         type="button"
         className={`btn btn-select border-rad ${fullWidth && 'w-100'} ${
-          isEmpty ? 'btn-reef' : 'btn-token-select'
+          isEmpty ? 'btn-dust' : 'btn-token-select'
         }`}
         data-bs-toggle="modal"
         data-bs-target={`#${id}`}

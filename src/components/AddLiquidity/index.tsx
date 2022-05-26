@@ -6,7 +6,7 @@ import {
 } from '../common/Card';
 import { TokenAmountField } from '../TokenFields';
 import { LoadingButtonIconWithText } from '../common/Loading';
-import { approveTokenAmount, getReefswapRouter } from '../../rpc';
+import { approveTokenAmount, getDustswapRouter } from '../../rpc';
 import {
   assertAmount,
   calculateAmount,
@@ -27,7 +27,7 @@ import {
   defaultSettings,
   Network,
   // PartialOptions,
-  ReefSigner,
+  DustSigner,
   resolveSettings,
   Token,
   TokenSelector,
@@ -95,7 +95,7 @@ interface AddLiquidityComponent {
   network: Network;
   tokenValue1: TokenWithAmount;
   tokenValue2: TokenWithAmount;
-  signer: ReefSigner;
+  signer: DustSigner;
   options?: Partial<DefaultOptions>;
 }
 
@@ -214,9 +214,9 @@ export const AddLiquidity = ({
       await approveTokenAmount(token2, network.routerAddress, sgnr);
 
       setStatus('Adding supply');
-      const reefswapRouter = getReefswapRouter(network.routerAddress, sgnr);
+      const dustswapRouter = getDustswapRouter(network.routerAddress, sgnr);
 
-      await reefswapRouter.addLiquidity(
+      await dustswapRouter.addLiquidity(
         token1.address,
         token2.address,
         amount1,
@@ -284,7 +284,7 @@ export const AddLiquidity = ({
 
         <button
           type="button"
-          className="btn btn-reef btn-lg border-rad w-100 mt-2"
+          className="btn btn-dust btn-lg border-rad w-100 mt-2"
           disabled={!isValid || isLoading}
           data-bs-toggle="modal"
           data-bs-target="#supplyModalToggle"
@@ -325,7 +325,7 @@ export const AddLiquidity = ({
           <div className="field p-2 border-rad">
             <ConfirmLabel
               title="Liquidity Provider Fee"
-              value="1.5 REEF"
+              value="1.5 DUST"
               titleSize="mini-text"
               valueSize="mini-text"
             />

@@ -1,6 +1,6 @@
 import { ContractInterface } from 'ethers';
 
-export const ReefswapPair: ContractInterface = [
+export const DustswapPair: ContractInterface = [
   {
     inputs: [],
     payable: false,

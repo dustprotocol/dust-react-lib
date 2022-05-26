@@ -1,7 +1,7 @@
 import React from 'react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { Network, ReefSigner } from '../../state';
-import { toReefBalanceDisplay, trim } from '../../utils';
+import { Network, DustSigner } from '../../state';
+import { toDustBalanceDisplay, trim } from '../../utils';
 import {
   Border,
   FlexRow,
@@ -13,7 +13,7 @@ import {
   WalletIcon,
   CopyIcon,
   ExploreIcon,
-  ReefAddressIcon,
+  DustAddressIcon,
 } from '../common/Icons';
 import {
   Modal, ModalBody, ModalClose, ModalHeader,
@@ -27,10 +27,10 @@ import { useObservableState } from '../../hooks';
 import './AccountSelector.css';
 
 interface AccountSelector {
-  reefscanUrl: string;
-  accounts: ReefSigner[];
-  selectedSigner?: ReefSigner;
-  selectAccount: (index: number, signer: ReefSigner) => void;
+  dustscanUrl: string;
+  accounts: DustSigner[];
+  selectedSigner?: DustSigner;
+  selectAccount: (index: number, signer: DustSigner) => void;
   availableNetworks?: Network[];
   selectNetwork?: (network: Network) => void;
 }
@@ -38,19 +38,19 @@ interface AccountSelector {
 export const AccountSelector = ({
   selectedSigner,
   accounts,
-  reefscanUrl,
+  dustscanUrl,
   selectAccount,
   selectNetwork,
   availableNetworks,
 }: AccountSelector): JSX.Element => {
   const name = selectedSigner ? selectedSigner.name : '';
   const address = selectedSigner ? selectedSigner.address : '';
-  const balance = toReefBalanceDisplay(selectedSigner?.balance);
+  const balance = toDustBalanceDisplay(selectedSigner?.balance);
   const evmAddress = selectedSigner ? selectedSigner.evmAddress : '';
   const currentNetwork = useObservableState(currentNetwork$);
 
   const confirmEvmCopy = (): void => {
-    window.alert('ONLY use this address on Reef chain! DO NOT use this Reef EVM address on any other chain!');
+    window.alert('ONLY use this address on Dust chain! DO NOT use this Dust EVM address on any other chain!');
   };
 
   const selectCurrNetwork = (network: Network):void => {
@@ -70,7 +70,7 @@ export const AccountSelector = ({
       </div>
       <button
         type="button"
-        className="btn btn-reef border-rad"
+        className="btn btn-dust border-rad"
         data-bs-toggle="modal"
         data-bs-target="#account-modal"
       >
@@ -87,12 +87,12 @@ export const AccountSelector = ({
             <Margin size="2">
               <FlexRow className="account-selector__account-address">
                 <div className="d-flex">
-                  <ReefAddressIcon address={address} />
+                  <DustAddressIcon address={address} />
                   <LeadText>{trim(evmAddress, 11)}</LeadText>
                 </div>
                 <button
                   type="button"
-                  className="btn btn-sm btn-reef border-rad"
+                  className="btn btn-sm btn-dust border-rad"
                   data-bs-target="#select-account-modal"
                   data-bs-toggle="modal"
                 >
@@ -132,13 +132,13 @@ export const AccountSelector = ({
             </Margin>
             <MT size="2" />
             <MX size="2">
-              <CopyToClipboard text={`${evmAddress}(ONLY for Reef chain!)`} onCopy={confirmEvmCopy}>
+              <CopyToClipboard text={`${evmAddress}(ONLY for Dust chain!)`} onCopy={confirmEvmCopy}>
                 <span
                   className="form-text text-muted ms-2 "
                   style={{ cursor: 'pointer' }}
                 >
                   <CopyIcon small />
-                  <MiniText>Copy Reef EVM Address</MiniText>
+                  <MiniText>Copy Dust EVM Address</MiniText>
                 </span>
               </CopyToClipboard>
               <CopyToClipboard text={address}>
@@ -151,7 +151,7 @@ export const AccountSelector = ({
                 </span>
               </CopyToClipboard>
               <a
-                href={`${reefscanUrl}/account/${address}`}
+                href={`${dustscanUrl}/account/${address}`}
                 target="_blank"
                 className="form-text text-muted ms-3"
                 style={{ textDecoration: 'none' }}

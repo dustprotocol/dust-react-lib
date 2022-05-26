@@ -1,5 +1,5 @@
 import { ReplaySubject } from 'rxjs';
-import { Provider } from '@reef-defi/evm-provider';
+import { Provider } from '@dust-defi/evm-provider';
 import { Network } from '../state';
 
 const providerSubj: ReplaySubject<Provider> = new ReplaySubject<Provider>(1);
